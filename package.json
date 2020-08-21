@@ -1,0 +1,32 @@
+{
+  "name": "twitter-timeline",
+  "description": "Embed a twitter timeline with customized settings.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "amezousan",
+  "homepage": "https://github.com/amezousan",
+  "scripts": {
+    "start": "adalo dev",
+    "login": "adalo login",
+    "publish": "adalo publish"
+  },
+  "adalo": {
+    "logo": "./logo.png",
+    "displayName": "Twitter Timeline",
+    "components": [
+      {
+        "name": "TwitterTimeline",
+        "manifest": "./src/components/TwitterTimeline/manifest.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@adalo/cli": "0.0.39",
+    "react": "^16.13.1",
+    "react-art": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-native-web": "^0.9.13",
+    "react-twitter-widgets": "^1.9.5"
+  }
+}

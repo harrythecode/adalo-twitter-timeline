@@ -1,0 +1,97 @@
+{
+  "displayName": "Twitter Timeline",
+  "defaultWidth": 480,
+  "defaultHeight": 400,
+  "resizeX": true,
+  "resizeY": true,
+  "components": "./index.js",
+  "icon": "./thumbnail.png",
+  "props": [
+    {
+      "name": "screenName",
+      "displayName": "Twitter Screen Name (e.g., @TwitterDev -> TwitterDev)",
+      "type": "text",
+      "default": "TwitterDev"
+    }
+  ],
+  "childComponents": [
+    {
+      "name": "timelineStyle",
+      "displayName": "Timeline Style",
+      "props": [
+        {
+          "name": "height",
+          "displayName": "Timeline Height (0 = unlimited)",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "name": "theme",
+          "displayName": "Twitter Theme",
+          "type": "text",
+          "default": "light",
+          "control": {
+            "type": "menu",
+            "options": [
+              { "label": "Light", "value": "light" },
+              { "label": "Dark", "value": "dark" }
+            ]
+          }
+        },
+        {
+          "name": "tweetLimit",
+          "displayName": "Display only n number of Tweets (0 = unlimited)",
+          "type": "number",
+          "default": 0,
+          "control": {
+            "type": "slider",
+            "min": 0,
+            "max": 20
+          }
+        }
+      ]
+    },
+    {
+      "name": "timelineOptions",
+      "displayName": "Timeline Options",
+      "props": [
+        {
+          "name": "lang",
+          "displayName": "Language (ISO 639-1)",
+          "type": "text",
+          "default": "en"
+        },
+        {
+          "name": "noheader",
+          "displayName": "No Header in Timeline",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "nofooter",
+          "displayName": "No Footer in Timeline",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "noborders",
+          "displayName": "No Borders in Timeline",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "noscrollbar",
+          "displayName": "No Scrollbar in Timeline",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "transparent",
+          "displayName": "Transparent Background in Timeline",
+          "type": "boolean",
+          "default": false
+        }
+      ]
+    }
+  ]
+}
