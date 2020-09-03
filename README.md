@@ -18,7 +18,7 @@ $ npm start
 
 ## Authors
 
-* **amesousan** [Twitter](https://twitter.com/amezousan)
+* **amezousan** [Twitter](https://twitter.com/amezousan)
 
 ## License
 
