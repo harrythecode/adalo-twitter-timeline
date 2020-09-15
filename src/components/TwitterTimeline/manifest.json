@@ -41,6 +41,28 @@
           "default": "en"
         },
         {
+          "name": "nomaxheight",
+          "displayName": "Restrict height in Timeline?",
+          "helpText": "If you turn off this, your timeline will be stretched out to the bottom",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "tweetMarginBottom",
+          "displayName": "Set margin bottom in Timeline",
+          "helpText": "This may help to have a fixed content on the bottom",
+          "type": "number",
+          "default": 0,
+          "control": {
+            "type": "slider",
+            "min": 0,
+            "max": 300
+          },
+          "enabled": {
+            "nomaxheight": false
+          }
+        },
+        {
           "name": "enableTweetLimit",
           "displayName": "Limit the number of tweets?",
           "type": "boolean",
@@ -83,28 +105,6 @@
           "displayName": "No Scrollbar in Timeline",
           "type": "boolean",
           "default": false
-        },
-        {
-          "name": "nomaxheight",
-          "displayName": "No Max Height in Timeline",
-          "helpText": "If 'true', the timeline will be stretched out to the bottom",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "name": "tweetMarginBottom",
-          "displayName": "Set margin bottom in Timeline",
-          "helpText": "This may help to have a fixed content on the bottom",
-          "type": "number",
-          "default": 0,
-          "control": {
-            "type": "slider",
-            "min": 0,
-            "max": 300
-          },
-          "enabled": {
-            "nomaxheight": true
-          }
         },
         {
           "name": "transparent",

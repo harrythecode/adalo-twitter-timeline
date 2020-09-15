@@ -14,6 +14,7 @@ class TwitterTimeline extends Component {
         super(props);
         this.state = {
             hasError           : false,
+            errorType          : '',
             width              : null,
             height             : null,
             previousScreenName : '',
@@ -21,7 +22,14 @@ class TwitterTimeline extends Component {
     }
 
     static getDerivedStateFromError(error) {
-        return { hasError: true };
+        const regex   = new RegExp('ensure%20the%20screenName%2FtweetId%20exists');
+        let errorType = '';
+        if(regex.exec(error)){
+            errorType = "screenNameNotFound"
+        } else {
+            errorType = "unknown"
+        } 
+        return { hasError: true , errorType };
     }
 
     getTimelineOptions(options) {
@@ -51,9 +59,10 @@ class TwitterTimeline extends Component {
     render() {
         const { screenName, timelineOptions, _height, editor } = this.props;
         const chromeLists    = this.getTimelineOptions(timelineOptions);
-        const timelineHeight = timelineOptions.nomaxheight ? null : _height;
+        const timelineHeight = timelineOptions.nomaxheight ? _height : null;
         const timelineLimit  = timelineOptions.tweetLimit == 0 ? null : timelineOptions.tweetLimit;
         const htmlContent    = `
+        <div id="twitter-container-for-webview-20200915" style="height: 100%; width: 100%;">
         <a class="twitter-timeline"
             href="https://twitter.com/${screenName}?ref_src=twsrc%5Etfw"
             data-chrome="${chromeLists}"
@@ -62,10 +71,9 @@ class TwitterTimeline extends Component {
             data-theme="${timelineOptions.theme}"
             data-tweetLimit="${timelineLimit}"
         >Tweets by ${screenName}</a>
+        </div>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         `;
-
-        console.log(_height, this.state.height, this.props)
         
         const styles = StyleSheet.create({
             twContainer: {
@@ -78,15 +86,11 @@ class TwitterTimeline extends Component {
                 width: "100%",
                 height: "100%"
             },
-            titleHeader: {
-                fontSize: 19,
-                fontWeight: "bold"
-            },
             titleBody: {
                 fontSize: 14
             },
             customMargin: {
-                marginBottom : timelineOptions.nomaxheight ? timelineOptions.tweetMarginBottom : 0
+                marginBottom : timelineOptions.nomaxheight ? 0 : timelineOptions.tweetMarginBottom
             }
         });
 
@@ -101,6 +105,10 @@ class TwitterTimeline extends Component {
 
         // Check if timeline has any error
         if (this.state.hasError) {
+            let errorMessage = 'Something went wrong';
+            if (this.state.errorType == "screenNameNotFound") {
+                errorMessage = screenName + ' does not exist'
+            }
             if(this.state.previousScreenName !== screenName) {
                 this.state = {
                     hasError: false,
@@ -109,16 +117,33 @@ class TwitterTimeline extends Component {
             }
             return (
                 <View style={styles.twContainer}>
-                    <Text style={styles.titleHeader}>{screenName} Not Found.</Text>
-                    <Text style={styles.titleBody}>Try searching for another.</Text>
+                    <Text style={styles.titleBody}>Error: {errorMessage}</Text>
                 </View>
             )
         }
 
+        // Workaround:
+        // - When widget.js gets an error, it will add "twitter-timeline-error" class name to the a tag
+        //   so I just set a trigger if it has a specific class name or not.
+        // - Added setTimeout since it takes a few mili-seconds to render DOM
+        const INJECTED_JAVASCRIPT = `setTimeout(function() {
+            var content    = document.getElementById("twitter-container-for-webview-20200915");
+            var contentFlg = content.getElementsByClassName("twitter-timeline-error");
+
+            if(contentFlg.length > 0) {
+                contentFlg[0].outerHTML="<h1 style='font-size:72; padding:50;'>Error: ${screenName} does not exist</h1>"
+                content.style.backgroundColor="#333333"
+                content.style.justifyContent="center"
+                content.style.alignItems="center"
+                content.style.display="flex"
+                content.style.color="#eeeeee"
+            }
+        }, 50);`;
+
         return (
             Platform.OS === 'web'
             ?  <View style={styles.customMargin} onLayout={this.handleLayout}>
-                <Timeline
+                    <Timeline
                     dataSource={{
                         sourceType: 'profile',
                         screenName: screenName
@@ -131,9 +156,15 @@ class TwitterTimeline extends Component {
                         tweetLimit : timelineOptions.tweetLimit == 0 ? null : timelineOptions.tweetLimit,
                     }}
                     renderError={(_err) => <p>Could not load timeline due to Error on Twitter side (Reason: {_err})</p>}
-                />
+                    />
                 </View>
-            :   <WebView style={styles.customMargin} source={{html: htmlContent}} />
+            : 
+            <WebView
+                originWhitelist={['*']}
+                style={styles.customMargin}
+                source={{html: htmlContent}}
+                injectedJavaScript={INJECTED_JAVASCRIPT}
+            />
         )
     }
 }
