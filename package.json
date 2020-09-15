@@ -27,7 +27,7 @@
     "react-art": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-native-web": "^0.9.13",
-    "react-native-webview": "^7.2.7"
+    "react-native-webview": "*"
   },
   "dependencies": {
     "react-twitter-widgets": "^1.9.5"
