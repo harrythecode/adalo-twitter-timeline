@@ -5,7 +5,7 @@
  */
 import { Timeline } from 'react-twitter-widgets'
 import React, { Component } from 'react'
-import { StyleSheet, Platform, Text, View, Image } from 'react-native'
+import { StyleSheet, Platform, Text, View, ScrollView } from 'react-native'
 import { WebView } from 'react-native-webview'
 import logo from './preview-thumbnail.png';
 
@@ -57,19 +57,17 @@ class TwitterTimeline extends Component {
     }
 
     render() {
-        const { screenName, timelineOptions, _height, editor } = this.props;
+        const { screenName, timelineOptions, editor } = this.props;
         const chromeLists    = this.getTimelineOptions(timelineOptions);
-        const timelineHeight = timelineOptions.nomaxheight ? _height : null;
-        const timelineLimit  = timelineOptions.tweetLimit == 0 ? null : timelineOptions.tweetLimit;
+        const timelineLimit  = timelineOptions.enableTweetLimit ? timelineOptions.tweetLimit : null;
         const htmlContent    = `
         <div id="twitter-container-for-webview-20200915" style="height: 100%; width: 100%;">
         <a class="twitter-timeline"
             href="https://twitter.com/${screenName}?ref_src=twsrc%5Etfw"
             data-chrome="${chromeLists}"
-            data-height="${timelineHeight}"
             data-lang="${timelineOptions.lang}"
             data-theme="${timelineOptions.theme}"
-            data-tweetLimit="${timelineLimit}"
+            data-tweet-limit="${timelineLimit}"
         >Tweets by ${screenName}</a>
         </div>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -88,9 +86,6 @@ class TwitterTimeline extends Component {
             },
             titleBody: {
                 fontSize: 14
-            },
-            customMargin: {
-                marginBottom : timelineOptions.nomaxheight ? 0 : timelineOptions.tweetMarginBottom
             }
         });
 
@@ -142,28 +137,28 @@ class TwitterTimeline extends Component {
 
         return (
             Platform.OS === 'web'
-            ?  <View style={styles.customMargin} onLayout={this.handleLayout}>
-                    <Timeline
-                    dataSource={{
-                        sourceType: 'profile',
-                        screenName: screenName
-                    }}
-                    options={{
-                        chrome     : chromeLists,
-                        height     : timelineHeight,
-                        lang       : timelineOptions.lang,
-                        theme      : timelineOptions.theme,
-                        tweetLimit : timelineOptions.tweetLimit == 0 ? null : timelineOptions.tweetLimit,
-                    }}
-                    renderError={(_err) => <p>Could not load timeline due to Error on Twitter side (Reason: {_err})</p>}
-                    />
-                </View>
-            : 
+            ?
+            <ScrollView onLayout={this.handleLayout}>
+                <Timeline
+                dataSource={{
+                    sourceType: 'profile',
+                    screenName: screenName
+                }}
+                options={{
+                    chrome     : chromeLists,
+                    lang       : timelineOptions.lang,
+                    theme      : timelineOptions.theme,
+                    tweetLimit : timelineOptions.tweetLimit == 0 ? null : timelineOptions.tweetLimit,
+                }}
+                renderError={(_err) => <p>Could not load timeline due to Error on Twitter side (Reason: {_err})</p>}
+                />
+            </ScrollView>
+            :
             <WebView
-                originWhitelist={['*']}
-                style={styles.customMargin}
-                source={{html: htmlContent}}
-                injectedJavaScript={INJECTED_JAVASCRIPT}
+                originWhitelist     = {['*']}
+                startInLoadingState = {true}
+                source              = {{html: htmlContent}}
+                injectedJavaScript  = {INJECTED_JAVASCRIPT}
             />
         )
     }
