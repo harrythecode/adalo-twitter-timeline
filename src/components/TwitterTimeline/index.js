@@ -33,12 +33,11 @@ class TwitterTimeline extends Component {
     }
 
     getTimelineOptions(options) {
-        let chromeLists = [];
-        if (options.noheader) chromeLists.push("noheader");
-        if (options.nofooter) chromeLists.push("nofooter");
-        if (options.noborders) chromeLists.push("noborders");
-        if (options.transparent) chromeLists.push("transparent");
-        if (options.noscrollbar) chromeLists.push("noscrollbar");
+        let chromeLists = ["noscrollbar"];
+        if (!options.showHeader) chromeLists.push("noheader");
+        if (!options.showFooter) chromeLists.push("nofooter");
+        if (!options.showBorders) chromeLists.push("noborders");
+        if (options.enableTransparent) chromeLists.push("transparent");
 
         return chromeLists.join(" ");
     }
@@ -148,7 +147,7 @@ class TwitterTimeline extends Component {
                     chrome     : chromeLists,
                     lang       : timelineOptions.lang,
                     theme      : timelineOptions.theme,
-                    tweetLimit : timelineOptions.tweetLimit == 0 ? null : timelineOptions.tweetLimit,
+                    tweetLimit : timelineLimit,
                 }}
                 renderError={(_err) => <p>Could not load timeline due to Error on Twitter side (Reason: {_err})</p>}
                 />
