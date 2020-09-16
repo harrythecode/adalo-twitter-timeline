@@ -61,32 +61,26 @@
           }
         },
         {
-          "name": "noheader",
-          "displayName": "No Header in Timeline",
+          "name": "showHeader",
+          "displayName": "Show header in Timeline",
           "type": "boolean",
-          "default": false
+          "default": true
         },
         {
-          "name": "nofooter",
-          "displayName": "No Footer in Timeline",
+          "name": "showFooter",
+          "displayName": "Show footer in Timeline",
           "type": "boolean",
-          "default": false
+          "default": true
         },
         {
-          "name": "noborders",
-          "displayName": "No Borders in Timeline",
+          "name": "showBorders",
+          "displayName": "Show borders in Timeline",
           "type": "boolean",
-          "default": false
+          "default": true
         },
         {
-          "name": "noscrollbar",
-          "displayName": "No Scrollbar in Timeline",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "name": "transparent",
-          "displayName": "Transparent Background in Timeline",
+          "name": "enableTransparent",
+          "displayName": "Use transparent background in Timeline",
           "type": "boolean",
           "default": false
         }
