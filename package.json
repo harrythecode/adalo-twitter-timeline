@@ -1,11 +1,11 @@
 {
   "name": "twitter-timeline",
   "description": "Embed a twitter timeline with customized settings.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.js",
   "license": "MIT",
   "author": "amezousan",
-  "homepage": "https://github.com/amezousan",
+  "homepage": "https://github.com/amezousan/adalo-twitter-timeline",
   "scripts": {
     "start": "adalo dev",
     "login": "adalo login",

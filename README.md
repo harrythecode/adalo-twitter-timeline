@@ -12,8 +12,8 @@ You need to set up your own environment for adalo dev. See details in http://dev
 Once you clone this project and set up adalo env, then you only need to run the commands below:
 
 ```
-$ npm ci
-$ npm start
+$ yarn install
+$ yarn start
 ```
 
 ## Authors
