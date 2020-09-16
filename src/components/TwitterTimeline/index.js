@@ -58,7 +58,6 @@ class TwitterTimeline extends Component {
     render() {
         const { screenName, timelineOptions, editor } = this.props;
         const chromeLists    = this.getTimelineOptions(timelineOptions);
-        console.log(chromeLists)
         const timelineLimit  = timelineOptions.enableTweetLimit ? timelineOptions.tweetLimit : null;
         const htmlContent    = `
         <div id="twitter-container-for-webview-20200915" style="height: 100%; width: 100%;">
