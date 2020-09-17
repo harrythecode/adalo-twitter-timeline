@@ -16,6 +16,10 @@ $ yarn install
 $ yarn start
 ```
 
+## Feedbacks
+
+You can create an issue here :) if you are not sure then contact me on Twitter!
+
 ## Authors
 
 * **amezousan** [Twitter](https://twitter.com/amezousan)
