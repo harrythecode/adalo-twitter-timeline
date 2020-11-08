@@ -8,11 +8,47 @@
   "icon": "./thumbnail.png",
   "props": [
     {
+      "name": "actionType",
+      "displayName": "Which do you want to choose?",
+      "type": "number",
+      "default": 10,
+      "control": {
+        "type": "menu",
+        "options": [
+          { "label": "Set a static Twitter Name", "value": 10 },
+          { "label": "Use a collection to show Twitter Name", "value": 20 }
+        ]
+      }
+    },
+    {
+      "name": "listOfDataSource",
+      "displayName": "Collection for Twitter Name",
+      "type": "list",
+      "enabled": {
+        "actionType": 20
+      }
+    },
+    {
+      "name": "screenNameFromCollection",
+      "displayName": "Twitter Handle Name (Collection)",
+      "helpText": "Only the 1st item on collection will be used. Don't include the @ sign (e.g., @TwitterDev -> TwitterDev)",
+      "default": "TwitterDev",
+      "type": "text",
+      "role": "listItem",
+      "reference": "listOfDataSource",
+      "enabled": {
+        "actionType": 20
+      }
+    },
+    {
       "name": "screenName",
-      "displayName": "Twitter Handle Name",
+      "displayName": "Twitter Handle Name (Static)",
       "helpText": "Don't include the @ sign (e.g., @TwitterDev -> TwitterDev)",
       "type": "text",
-      "default": "TwitterDev"
+      "default": "TwitterDev",
+      "enabled": {
+        "actionType": 10
+      }
     }
   ],
   "childComponents": [
